@@ -1276,6 +1276,7 @@ Notes:
 
 (3)
    :meth:`remove` raises :exc:`ValueError` when *x* is not found in *s*.
+   
 
 (4)
    The :meth:`reverse` method modifies the sequence in place for economy of
@@ -1334,6 +1335,47 @@ application).
    Lists implement all of the :ref:`common <typesseq-common>` and
    :ref:`mutable <typesseq-mutable>` sequence operations. Lists also provide the
    following additional method:
+
+   .. method:: list.remove(x)
+      :noindex:
+   
+      Remove the first item from the list whose value is equal to *x*.
+      It raises a :exc:`ValueError` if there is no such item.
+   
+      .. warning::
+         Modifying a list during iteration can cause undefined behavior.
+         Common issues include:
+   
+         * Skipped items (when removal shifts subsequent elements)
+         * ``RuntimeError`` from iterator invalidation
+         * Incorrect results due to changed list length during iteration
+   
+         Instead of::
+   
+            for item in mylist:          # ← Dangerous iteration
+                if condition(item):
+                    mylist.remove(item)  # ← Modifies during iteration
+   
+         Consider these safer patterns:
+   
+         1. Iterate a copy (safe for small lists)::
+   
+               for item in list(mylist):
+                   if condition(item):
+                       mylist.remove(item)
+   
+         2. Create a filtered copy (memory efficient for large deletions)::
+   
+               mylist[:] = [item for item in mylist if not condition(item)]
+   
+         3. Delayed removal (preserves other references)::
+   
+               remove_items = {item for item in mylist if condition(item)}
+               for item in remove_items:
+                   while item in mylist:
+                       mylist.remove(item)
+   
+         Note: Approach #3 uses a set for efficiency with duplicates.
 
    .. method:: list.sort(*, key=None, reverse=False)
 
