@@ -1336,7 +1336,6 @@ application).
    following additional method:
 
    .. method:: list.remove(x)
-   :noindex:
 
    Remove the first item from the list whose value is equal to *x*.
    It raises a :exc:`ValueError` if there is no such item.
