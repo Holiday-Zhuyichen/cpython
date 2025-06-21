@@ -1337,8 +1337,8 @@ application).
 
    .. method:: list.remove(x)
 
-   Remove the first item from the list whose value is equal to *x*.
-   It raises a :exc:`ValueError` if there is no such item.
+      Remove the first item from the list whose value is equal to *x*.
+      It raises a :exc:`ValueError` if there is no such item.
 
    .. warning::
       Modifying a list during iteration can cause undefined behavior.
