@@ -1240,6 +1240,36 @@ Here are three variations.::
 
 The list comprehension may be fastest.
 
+Why does iterating over a list and modifying it sometimes skip elements?
+------------------------------------------------------------------------
+
+Python's list iterator works by index, and modifying the list during iteration can cause internal index misalignment. For example:
+
+.. code-block:: python
+
+   a = [1, 2, 3, 4]
+   for x in a:
+       if x % 2 == 0:
+           a.remove(x)  # Actually gets [1, 3, 4] instead of the expected [1, 3]
+
+Safe modification methods:
+
+1. Create a copy:
+
+   .. code-block:: python
+
+      for x in a.copy():
+          a.remove(x)
+
+2. Iterate backwards:
+
+   .. code-block:: python
+
+      for i in range(len(a)-1, -1, -1):
+          if a[i] % 2 == 0:
+              del a[i]
+
+
 
 How do you make an array in Python?
 -----------------------------------
